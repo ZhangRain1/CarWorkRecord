@@ -408,6 +408,24 @@
     color: #888;
   }
 
+  .page-size-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .page-size-control select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #555;
+    outline: none;
+  }
+
   /* ===== 分页 ===== */
   .pagination-controls {
     display: flex;
@@ -768,6 +786,15 @@
 
           <!-- 列表下方数据记录与翻页（均在右下角） -->
           <div class="table-footer-info">
+            <div class="record-info">共128条</div>
+            <div class="page-size-control">
+              <select>
+                <option>10条</option>
+                <option selected>20条</option>
+                <option>50条</option>
+                <option>100条</option>
+              </select>
+            </div>
             <div class="pagination-controls">
               <span class="page-btn disabled">‹</span>
               <span class="page-btn active">1</span>
@@ -777,7 +804,6 @@
               <span class="page-btn">26</span>
               <span class="page-btn">›</span>
             </div>
-            <div class="record-info">显示 1-5 / 共 128 条记录</div>
           </div>
         </div>
 
