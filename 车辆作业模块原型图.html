@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>车辆作业模块 - 原型图</title>
+<style>
+  /* ===== 全局重置&线框图风格 ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  /* ===== 原型图标尺标记 ===== */
+  .prototype-badge {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #e8e8e8;
+    border-bottom: 1px dashed #ccc;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 2px;
+    z-index: 999;
+  }
+
+  /* ===== 页面容器 ===== */
+  .page-container {
+    width: 1440px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-top: 36px;
+    min-height: 900px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ============================================
+     1. 顶部区域
+     ============================================ */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+    min-height: 60px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-logo-placeholder {
+    width: 36px; height: 36px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #bbb;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 1px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-username {
+    font-size: 14px;
+    color: #444;
+  }
+
+  .header-avatar-placeholder {
+    width: 32px; height: 32px;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #bbb;
+  }
+
+  /* ============================================
+     2. 主体区域（菜单 + 内容）
+     ============================================ */
+  .main-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ===== 左侧菜单 ===== */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    border-right: 1px solid #ddd;
+    background: #fafafa;
+    padding: 16px 0 0 0;
+  }
+
+  .menu-section {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .menu-item {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: #333;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .menu-item:hover {
+    background: #eee;
+  }
+
+  .menu-item.active {
+    font-weight: 600;
+    color: #1077de;
+  }
+
+  .menu-arrow {
+    font-size: 12px;
+    color: #bbb;
+    transition: transform 0.2s;
+  }
+
+  .menu-arrow.open {
+    transform: rotate(90deg);
+  }
+
+  .sub-menu {
+    list-style: none;
+    background: #fff;
+  }
+
+  .sub-menu li {
+    padding: 10px 20px 10px 36px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px dashed #e0e0e0;
+    cursor: default;
+    user-select: none;
+  }
+
+  .sub-menu li:hover {
+    background: #f0f0f0;
+  }
+
+  .sub-menu li.active {
+    font-weight: 600;
+    color: #1077de;
+  }
+
+  /* ===== 右侧内容区 ===== */
+  .content-area {
+    flex: 1;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #f2f2f2;
+  }
+
+  /* ===== 顶部导航页签（块状 + 关闭按钮） ===== */
+  .nav-tabs-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 24px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    gap: 4px;
+  }
+
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #666;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    cursor: default;
+    user-select: none;
+  }
+
+  .nav-tab.active {
+    color: #1077de;
+    font-weight: 600;
+    background: #e8f2fc;
+    border-color: #1077de;
+  }
+
+  .nav-tab-close {
+    font-size: 14px;
+    color: #999;
+    line-height: 1;
+  }
+
+  .nav-tab.active .nav-tab-close {
+    color: #1077de;
+  }
+
+  /* ===== 内容主体 ===== */
+  .content-body {
+    flex: 1;
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* ===== 数据筛选区域 ===== */
+  .filter-section {
+    border: 1px solid #ddd;
+    padding: 0;
+    margin-bottom: 16px;
+    background: #fff;
+  }
+
+  .section-title-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 40px;
+    background: #eff6ff;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 150px;
+  }
+
+  .filter-item label {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .filter-item input,
+  .filter-item select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    min-width: 140px;
+  }
+
+  .filter-item input:focus,
+  .filter-item select:focus {
+    border-color: #aaa;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    padding-bottom: 1px;
+    margin-left: auto;
+  }
+
+  .btn {
+    padding: 7px 20px;
+    font-size: 13px;
+    font-family: inherit;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #444;
+    cursor: default;
+    user-select: none;
+    letter-spacing: 0.5px;
+  }
+
+  .btn:hover {
+    background: #eee;
+  }
+
+  .btn-primary {
+    background: #1077de;
+    color: #fff;
+    border-color: #1077de;
+  }
+
+  .btn-outline {
+    background: #fff;
+    color: #555;
+    border-color: #ccc;
+  }
+
+  /* ===== 数据列表（表格） ===== */
+  .table-section {
+    flex: 1;
+    overflow: visible;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    margin-bottom: 0;
+    padding: 16px 20px 0 20px;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 1800px;
+  }
+
+  thead th {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px 8px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  tbody td {
+    border: 1px solid #e0e0e0;
+    padding: 9px 8px;
+    text-align: center;
+    color: #555;
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  tbody tr:hover {
+    background: #f0f4ff;
+  }
+
+  /* ===== 列表下方数据记录与翻页（均在右下角） ===== */
+  .table-footer-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0 20px 16px 20px;
+    border-top: none;
+  }
+
+  .record-info {
+    font-size: 13px;
+    color: #888;
+  }
+
+  .page-size-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .page-size-control select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #555;
+    outline: none;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination-controls {
+    display: flex;
+    gap: 4px;
+  }
+
+  .page-btn {
+    padding: 5px 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #555;
+    cursor: default;
+    user-select: none;
+  }
+
+  .page-btn.active {
+    background: #1077de;
+    color: #fff;
+    border-color: #1077de;
+  }
+
+  .page-btn.disabled {
+    color: #ccc;
+    border-color: #eee;
+  }
+
+  /* ===== 侧边弹框（高级筛选） ===== */
+  .drawer-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: none;
+  }
+
+  .drawer-overlay.show {
+    display: block;
+  }
+
+  .drawer-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    height: 100vh;
+    background: #fff;
+    border-left: 1px solid #ddd;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .drawer-panel.show {
+    transform: translateX(0);
+  }
+
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .drawer-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .drawer-close {
+    font-size: 20px;
+    color: #999;
+    cursor: default;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .drawer-filter-group {
+    margin-bottom: 16px;
+  }
+
+  .drawer-filter-group label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+  .drawer-filter-group input,
+  .drawer-filter-group select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+  }
+
+  .drawer-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  /* ===== 原型尺寸标注 ===== */
+  .dimension-label {
+    position: absolute;
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 1024px) {
+    .sidebar { width: 180px; min-width: 180px; }
+    .filter-row { flex-direction: column; align-items: stretch; }
+    .filter-actions { margin-left: 0; }
+    .drawer-panel { width: 360px; }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid #ddd; }
+    .main-body { flex-direction: column; }
+    .page-container { margin-top: 60px; }
+    .drawer-panel { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 原型图标示 -->
+<div class="prototype-badge">PROTOTYPE — 线框图 / 原型图</div>
+
+<!-- ===== 页面容器 ===== -->
+<div class="page-container">
+
+  <!-- ============================
+       顶部区域
+       ============================ -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo-placeholder"></div>
+      <span class="header-title">中铁联集经营管理平台总公司</span>
+    </div>
+    <div class="header-right">
+      <span class="header-username">王小明</span>
+      <div class="header-avatar-placeholder"></div>
+    </div>
+  </header>
+
+  <!-- ============================
+       主体区域
+       ============================ -->
+  <div class="main-body">
+
+    <!-- ===== 左侧菜单区 ===== -->
+    <aside class="sidebar">
+      <div class="menu-section">
+        <div class="menu-item active">
+          <span>车队与车辆管理</span>
+          <span class="menu-arrow open">▶</span>
+        </div>
+        <ul class="sub-menu">
+          <li class="active">车辆作业</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ===== 右侧内容区 ===== -->
+    <main class="content-area">
+
+      <!-- 顶部导航页签（块状 + 关闭按钮） -->
+      <div class="nav-tabs-bar">
+        <div class="nav-tab active">
+          <span>车辆作业</span>
+          <span class="nav-tab-close">×</span>
+        </div>
+      </div>
+
+      <!-- 内容主体 -->
+      <div class="content-body">
+
+        <!-- 数据筛选 -->
+        <div class="filter-section">
+          <div class="section-title-bar">数据筛选</div>
+          <div class="filter-row">
+            <div class="filter-item">
+              <label>订单号</label>
+              <input type="text" placeholder="请输入订单号" value="ZTLJXABD260604010">
+            </div>
+            <div class="filter-item">
+              <label>作业类型</label>
+              <select>
+                <option>全部</option>
+                <option selected>提箱</option>
+                <option>还空</option>
+                <option>装箱</option>
+                <option>卸货</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label>车牌号</label>
+              <input type="text" placeholder="请输入车牌号">
+            </div>
+            <div class="filter-item">
+              <label>司机</label>
+              <input type="text" placeholder="请输入司机姓名">
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-primary">查询</button>
+              <button class="btn btn-outline">重置</button>
+              <button class="btn btn-outline" onclick="toggleDrawer()">高级筛选</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据列表 -->
+        <div class="table-section">
+          <div class="section-title-bar">数据列表</div>
+          <div class="table-scroll-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:44px">序号</th>
+                  <th style="min-width:130px">订单号</th>
+                  <th style="min-width:90px">作业类型</th>
+                  <th style="min-width:90px">车牌号</th>
+                  <th style="min-width:70px">司机</th>
+                  <th style="min-width:110px">司机手机号码</th>
+                  <th style="min-width:120px">所属公司</th>
+                  <th style="min-width:100px">集装箱号</th>
+                  <th style="min-width:120px">提箱/提重地</th>
+                  <th style="min-width:120px">装箱/卸货地</th>
+                  <th style="min-width:110px">提箱/提空预约状态</th>
+                  <th style="min-width:110px">还空/落重预约状态</th>
+                  <th style="min-width:140px">进站时间</th>
+                  <th style="min-width:140px">出站时间</th>
+                  <th style="min-width:90px">订单状态</th>
+                  <th style="min-width:140px">预约时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 数据行 1 -->
+                <tr>
+                  <td>1</td>
+                  <td>ZTLJXABD260604010</td>
+                  <td>提箱</td>
+                  <td>京A·88888</td>
+                  <td>张伟</td>
+                  <td>138****0001</td>
+                  <td>北京中铁物流</td>
+                  <td>MSKU9876543</td>
+                  <td>北京站-堆场A</td>
+                  <td>天津站-堆场B</td>
+                  <td><span style="color:#e68a00;">待预约</span></td>
+                  <td><span style="color:#1a7f37;">已预约</span></td>
+                  <td>2026-06-15 08:30</td>
+                  <td>—</td>
+                  <td><span style="color:#1a7f37;">处理中</span></td>
+                  <td>2026-06-14 18:00</td>
+                </tr>
+                <!-- 数据行 2 -->
+                <tr>
+                  <td>2</td>
+                  <td>ZTLJXABD260603032</td>
+                  <td>还空</td>
+                  <td>京B·12345</td>
+                  <td>李强</td>
+                  <td>139****0002</td>
+                  <td>天津港物流</td>
+                  <td>CCLU4567890</td>
+                  <td>天津站-堆场C</td>
+                  <td>北京站-堆场A</td>
+                  <td><span style="color:#1a7f37;">已预约</span></td>
+                  <td><span style="color:#e68a00;">待预约</span></td>
+                  <td>2026-06-14 14:20</td>
+                  <td>2026-06-14 16:45</td>
+                  <td><span style="color:#1077de;">已完成</span></td>
+                  <td>2026-06-13 16:30</td>
+                </tr>
+                <!-- 数据行 3 -->
+                <tr>
+                  <td>3</td>
+                  <td>ZTLJXABD260603018</td>
+                  <td>装箱</td>
+                  <td>京C·56789</td>
+                  <td>王芳</td>
+                  <td>137****0003</td>
+                  <td>石家庄联运</td>
+                  <td>TGHU1234567</td>
+                  <td>石家庄站-堆场D</td>
+                  <td>郑州站-堆场E</td>
+                  <td><span style="color:#1a7f37;">已预约</span></td>
+                  <td><span style="color:#1a7f37;">已预约</span></td>
+                  <td>2026-06-14 09:10</td>
+                  <td>2026-06-14 11:30</td>
+                  <td><span style="color:#1077de;">已完成</span></td>
+                  <td>2026-06-13 14:00</td>
+                </tr>
+                <!-- 数据行 4 -->
+                <tr>
+                  <td>4</td>
+                  <td>ZTLJXABD260602055</td>
+                  <td>卸货</td>
+                  <td>京D·34567</td>
+                  <td>赵明</td>
+                  <td>136****0004</td>
+                  <td>唐山物流中心</td>
+                  <td>MSCU8765432</td>
+                  <td>唐山站-堆场F</td>
+                  <td>天津站-堆场G</td>
+                  <td><span style="color:#cf222e;">已取消</span></td>
+                  <td><span style="color:#cf222e;">已取消</span></td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td><span style="color:#cf222e;">已取消</span></td>
+                  <td>—</td>
+                </tr>
+                <!-- 数据行 5 -->
+                <tr>
+                  <td>5</td>
+                  <td>ZTLJXABD260602022</td>
+                  <td>提箱</td>
+                  <td>京E·90123</td>
+                  <td>刘洋</td>
+                  <td>135****0005</td>
+                  <td>保定货运公司</td>
+                  <td>CMAU3456789</td>
+                  <td>保定站-堆场H</td>
+                  <td>北京站-堆场A</td>
+                  <td><span style="color:#1a7f37;">已预约</span></td>
+                  <td><span style="color:#e68a00;">待预约</span></td>
+                  <td>2026-06-13 10:00</td>
+                  <td>2026-06-13 12:15</td>
+                  <td><span style="color:#1a7f37;">处理中</span></td>
+                  <td>2026-06-12 20:00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 列表下方数据记录与翻页（均在右下角） -->
+          <div class="table-footer-info">
+            <div class="record-info">共128条</div>
+            <div class="page-size-control">
+              <select>
+                <option>10条</option>
+                <option selected>20条</option>
+                <option>50条</option>
+                <option>100条</option>
+              </select>
+            </div>
+            <div class="pagination-controls">
+              <span class="page-btn disabled">‹</span>
+              <span class="page-btn active">1</span>
+              <span class="page-btn">2</span>
+              <span class="page-btn">3</span>
+              <span class="page-btn">…</span>
+              <span class="page-btn">26</span>
+              <span class="page-btn">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- 底部标注 -->
+  <div style="border-top: 1px solid #ddd; padding: 10px 24px; font-size: 12px; color: #aaa; text-align: center; background: #fafafa;">
+    原型图 · 车辆作业模块
+  </div>
+</div>
+
+<!-- ===== 侧边弹框（高级筛选） ===== -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+<div class="drawer-panel" id="drawerPanel">
+  <div class="drawer-header">
+    <span class="drawer-title">高级筛选</span>
+    <span class="drawer-close" onclick="toggleDrawer()">×</span>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-filter-group">
+      <label>订单号</label>
+      <input type="text" placeholder="请输入订单号">
+    </div>
+    <div class="drawer-filter-group">
+      <label>作业类型</label>
+      <select>
+        <option>全部</option>
+        <option>提箱</option>
+        <option>还空</option>
+        <option>装箱</option>
+        <option>卸货</option>
+      </select>
+    </div>
+    <div class="drawer-filter-group">
+      <label>车牌号</label>
+      <input type="text" placeholder="请输入车牌号">
+    </div>
+    <div class="drawer-filter-group">
+      <label>司机</label>
+      <input type="text" placeholder="请输入司机姓名">
+    </div>
+    <div class="drawer-filter-group">
+      <label>司机手机号码</label>
+      <input type="text" placeholder="请输入手机号码">
+    </div>
+    <div class="drawer-filter-group">
+      <label>所属公司</label>
+      <input type="text" placeholder="请输入公司名称">
+    </div>
+    <div class="drawer-filter-group">
+      <label>集装箱号</label>
+      <input type="text" placeholder="请输入集装箱号">
+    </div>
+    <div class="drawer-filter-group">
+      <label>提箱/提重地</label>
+      <input type="text" placeholder="请输入提箱/提重地">
+    </div>
+    <div class="drawer-filter-group">
+      <label>装箱/卸货地</label>
+      <input type="text" placeholder="请输入装箱/卸货地">
+    </div>
+    <div class="drawer-filter-group">
+      <label>提箱/提空预约状态</label>
+      <select>
+        <option>全部</option>
+        <option>待预约</option>
+        <option>已预约</option>
+        <option>已取消</option>
+      </select>
+    </div>
+    <div class="drawer-filter-group">
+      <label>还空/落重预约状态</label>
+      <select>
+        <option>全部</option>
+        <option>待预约</option>
+        <option>已预约</option>
+        <option>已取消</option>
+      </select>
+    </div>
+    <div class="drawer-filter-group">
+      <label>进站时间</label>
+      <input type="text" placeholder="请选择进站时间">
+    </div>
+    <div class="drawer-filter-group">
+      <label>出站时间</label>
+      <input type="text" placeholder="请选择出站时间">
+    </div>
+    <div class="drawer-filter-group">
+      <label>订单状态</label>
+      <select>
+        <option>全部</option>
+        <option>处理中</option>
+        <option>已完成</option>
+        <option>已取消</option>
+      </select>
+    </div>
+    <div class="drawer-filter-group">
+      <label>预约时间</label>
+      <input type="text" placeholder="请选择预约时间">
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-outline" onclick="toggleDrawer()">重置</button>
+    <button class="btn btn-primary" onclick="toggleDrawer()">查询</button>
+  </div>
+</div>
+
+<script>
+  function toggleDrawer() {
+    document.getElementById('drawerOverlay').classList.toggle('show');
+    document.getElementById('drawerPanel').classList.toggle('show');
+  }
+</script>
+
+</body>
+</html>
