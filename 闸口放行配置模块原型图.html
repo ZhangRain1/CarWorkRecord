@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闸口放行配置 - 原型图</title>
+<style>
+  /* ===== 全局重置&线框图风格 ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  /* ===== 原型图标尺标记 ===== */
+  .prototype-badge {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #e8e8e8;
+    border-bottom: 1px dashed #ccc;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 2px;
+    z-index: 999;
+  }
+
+  /* ===== 页面容器 ===== */
+  .page-container {
+    width: 1440px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-top: 36px;
+    min-height: 900px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ============================================
+     1. 顶部区域
+     ============================================ */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #ddd;
+    background: #2c8cf0;
+    min-height: 60px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-logo-placeholder {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: rgba(255,255,255,0.5);
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-username {
+    font-size: 14px;
+    color: #fff;
+  }
+
+  .header-avatar-placeholder {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: rgba(255,255,255,0.5);
+  }
+
+  /* ============================================
+     2. 主体区域（菜单 + 内容）
+     ============================================ */
+  .main-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ===== 左侧菜单 ===== */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    border-right: 1px solid #ddd;
+    background: #fff;
+    padding: 16px 0 0 0;
+  }
+
+  .menu-section {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .menu-item {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: #333;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .menu-item:hover {
+    background: #eee;
+  }
+
+  .menu-item.active {
+    font-weight: 600;
+    color: #1077de;
+  }
+
+  .menu-arrow {
+    font-size: 12px;
+    color: #bbb;
+    transition: transform 0.2s;
+  }
+
+  .menu-arrow.open {
+    transform: rotate(90deg);
+  }
+
+  .sub-menu {
+    list-style: none;
+    background: #fff;
+  }
+
+  .sub-menu li {
+    padding: 10px 20px 10px 36px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px dashed #e0e0e0;
+    cursor: default;
+    user-select: none;
+  }
+
+  .sub-menu li:hover {
+    background: #f0f0f0;
+  }
+
+  .sub-menu li.active {
+    font-weight: 600;
+    color: #1077de;
+  }
+
+  /* ===== 右侧内容区 ===== */
+  .content-area {
+    flex: 1;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #f2f2f2;
+  }
+
+  /* ===== 顶部导航页签（块状 + 关闭按钮） ===== */
+  .nav-tabs-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 24px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    gap: 4px;
+  }
+
+  .nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #666;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    cursor: default;
+    user-select: none;
+  }
+
+  .nav-tab.active {
+    color: #1077de;
+    font-weight: 600;
+    background: #e8f2fc;
+    border-color: #1077de;
+  }
+
+  .nav-tab-close {
+    font-size: 14px;
+    color: #999;
+    line-height: 1;
+  }
+
+  .nav-tab.active .nav-tab-close {
+    color: #1077de;
+  }
+
+  /* ===== 内容主体 ===== */
+  .content-body {
+    flex: 1;
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* ===== 数据筛选区域 ===== */
+  .filter-section {
+    border: 1px solid #ddd;
+    padding: 0;
+    margin-bottom: 16px;
+    background: #fff;
+  }
+
+  .section-title-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 40px;
+    background: #eff6ff;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    min-width: 150px;
+  }
+
+  .filter-item label {
+    font-size: 13px;
+    color: #555;
+    white-space: nowrap;
+  }
+
+  .filter-item input,
+  .filter-item select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    min-width: 140px;
+  }
+
+  .filter-item input:focus,
+  .filter-item select:focus {
+    border-color: #aaa;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    padding-bottom: 1px;
+    margin-left: auto;
+  }
+
+  .btn {
+    padding: 7px 20px;
+    font-size: 13px;
+    font-family: inherit;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #444;
+    cursor: default;
+    user-select: none;
+    letter-spacing: 0.5px;
+  }
+
+  .btn:hover {
+    background: #eee;
+  }
+
+  .btn-primary {
+    background: #1077de;
+    color: #fff;
+    border-color: #1077de;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover::after {
+    opacity: 0.1;
+  }
+
+  .btn-outline {
+    background: #fff;
+    color: #555;
+    border-color: #ccc;
+  }
+
+  /* ===== 数据列表（表格） ===== */
+  .table-section {
+    flex: 1;
+    overflow: visible;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    margin-bottom: 0;
+    padding: 16px 20px 0 20px;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  .table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 700px;
+  }
+
+  thead th {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px 8px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  tbody td {
+    border: 1px solid #e0e0e0;
+    padding: 9px 8px;
+    text-align: center;
+    color: #555;
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  tbody tr:hover {
+    background: #f0f4ff;
+  }
+
+  /* ===== 列表标题栏（含新增按钮） ===== */
+  .table-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 40px;
+    background: #eff6ff;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table-header-bar .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  /* ===== 列表下方数据记录与翻页（均在右下角） ===== */
+  .table-footer-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0 20px 16px 20px;
+    border-top: none;
+  }
+
+  .record-info {
+    font-size: 13px;
+    color: #888;
+  }
+
+  .page-size-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .page-size-control select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #555;
+    outline: none;
+  }
+
+  /* ===== 分页 ===== */
+  .pagination-controls {
+    display: flex;
+    gap: 4px;
+  }
+
+  .page-btn {
+    padding: 5px 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #555;
+    cursor: default;
+    user-select: none;
+  }
+
+  .page-btn.active {
+    background: #1077de;
+    color: #fff;
+    border-color: #1077de;
+  }
+
+  .page-btn.disabled {
+    color: #ccc;
+    border-color: #eee;
+  }
+
+  /* ===== 操作按钮 ===== */
+  .action-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+    cursor: default;
+    user-select: none;
+    margin: 0 2px;
+  }
+
+  .action-btn.primary {
+    color: #1077de;
+    border-color: #1077de;
+  }
+
+  .action-btn.success {
+    color: #1a7f37;
+    border-color: #1a7f37;
+  }
+
+  .action-btn.danger {
+    color: #cf222e;
+    border-color: #cf222e;
+  }
+
+  /* ===== 弹框 ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-overlay.show {
+    display: flex;
+  }
+
+  .modal-panel {
+    width: 520px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .modal-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .modal-close {
+    font-size: 20px;
+    color: #999;
+    cursor: default;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .modal-form-group label {
+    width: 120px;
+    min-width: 120px;
+    font-size: 13px;
+    color: #555;
+    text-align: right;
+  }
+
+  .modal-form-group input,
+  .modal-form-group select {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+  }
+
+  .modal-form-group input:focus,
+  .modal-form-group select:focus {
+    border-color: #aaa;
+  }
+
+  .modal-form-group .required {
+    color: #cf222e;
+    margin-left: 2px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 1024px) {
+    .sidebar { width: 180px; min-width: 180px; }
+    .filter-row { flex-direction: column; align-items: stretch; }
+    .filter-actions { margin-left: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid #ddd; }
+    .main-body { flex-direction: column; }
+    .page-container { margin-top: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 原型图标示 -->
+<div class="prototype-badge">PROTOTYPE — 线框图 / 原型图</div>
+
+<!-- ===== 页面容器 ===== -->
+<div class="page-container">
+
+  <!-- ============================
+       顶部区域
+       ============================ -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo-placeholder"></div>
+      <span class="header-title">中铁联集经营管理平台总公司</span>
+    </div>
+    <div class="header-right">
+      <span class="header-username">王小明</span>
+      <div class="header-avatar-placeholder"></div>
+    </div>
+  </header>
+
+  <!-- ============================
+       主体区域
+       ============================ -->
+  <div class="main-body">
+
+    <!-- ===== 左侧菜单区 ===== -->
+    <aside class="sidebar">
+      <div class="menu-section">
+        <div class="menu-item active">
+          <span>基础数据</span>
+          <span class="menu-arrow open">▶</span>
+        </div>
+        <ul class="sub-menu">
+          <li class="active">闸口放行配置</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ===== 右侧内容区 ===== -->
+    <main class="content-area">
+
+      <!-- 顶部导航页签（块状 + 关闭按钮） -->
+      <div class="nav-tabs-bar">
+        <div class="nav-tab active">
+          <span>闸口放行配置</span>
+          <span class="nav-tab-close">×</span>
+        </div>
+      </div>
+
+      <!-- 内容主体 -->
+      <div class="content-body">
+
+        <!-- 数据筛选 -->
+        <div class="filter-section">
+          <div class="section-title-bar">数据筛选</div>
+          <div class="filter-row">
+            <div class="filter-item">
+              <label>预约类型</label>
+              <select>
+                <option>全部</option>
+                <option>提空</option>
+                <option>提重</option>
+                <option>落重</option>
+                <option>还空</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-primary">查询</button>
+              <button class="btn btn-outline">重置</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据列表 -->
+        <div class="table-section">
+          <div class="table-header-bar">
+            <span class="title">数据列表</span>
+            <button class="btn btn-primary" onclick="toggleModal()">+ 新增</button>
+          </div>
+
+          <div class="table-scroll-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:44px">序号</th>
+                  <th style="min-width:100px">预约类型</th>
+                  <th style="min-width:180px">闸机识别字段</th>
+                  <th style="min-width:80px">状态</th>
+                  <th style="min-width:180px">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>提空</td>
+                  <td>集卡车车牌号</td>
+                  <td><span style="color:#1a7f37;">启用</span></td>
+                  <td>
+                    <button class="action-btn primary">编辑</button>
+                    <button class="action-btn danger">禁用</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>提重</td>
+                  <td>集卡车车牌号、集装箱号</td>
+                  <td><span style="color:#1a7f37;">启用</span></td>
+                  <td>
+                    <button class="action-btn primary">编辑</button>
+                    <button class="action-btn danger">禁用</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>落重</td>
+                  <td>集卡车车牌号、集装箱号、车挂号</td>
+                  <td><span style="color:#1a7f37;">启用</span></td>
+                  <td>
+                    <button class="action-btn primary">编辑</button>
+                    <button class="action-btn danger">禁用</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>还空</td>
+                  <td>集装箱号</td>
+                  <td><span style="color:#1a7f37;">启用</span></td>
+                  <td>
+                    <button class="action-btn primary">编辑</button>
+                    <button class="action-btn danger">禁用</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>提空</td>
+                  <td>车挂号</td>
+                  <td><span style="color:#999;">禁用</span></td>
+                  <td>
+                    <button class="action-btn primary">编辑</button>
+                    <button class="action-btn success">启用</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 列表下方数据记录与翻页（均在右下角） -->
+          <div class="table-footer-info">
+            <div class="record-info">共5条</div>
+            <div class="page-size-control">
+              <select>
+                <option>10条</option>
+                <option selected>20条</option>
+                <option>50条</option>
+                <option>100条</option>
+              </select>
+            </div>
+            <div class="pagination-controls">
+              <span class="page-btn disabled">‹</span>
+              <span class="page-btn active">1</span>
+              <span class="page-btn">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- 底部标注 -->
+  <div style="border-top: 1px solid #ddd; padding: 10px 24px; font-size: 12px; color: #aaa; text-align: center; background: #fafafa;">
+    原型图 · 闸口放行配置模块
+  </div>
+</div>
+
+<!-- ===== 新增弹框 ===== -->
+<div class="modal-overlay" id="modalOverlay" onclick="toggleModal()">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">新增闸口放行配置</span>
+      <span class="modal-close" onclick="toggleModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-form-group">
+        <label>预约类型<span class="required">*</span></label>
+        <input type="text" placeholder="请输入预约类型">
+      </div>
+      <div class="modal-form-group" style="align-items:flex-start;">
+        <label style="padding-top:7px;">闸机识别字段<span class="required">*</span></label>
+        <div class="multi-select-dropdown" style="flex:1;position:relative;" id="gateFieldDropdown">
+          <div class="multi-select-trigger" style="padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;color:#333;cursor:default;display:flex;justify-content:space-between;align-items:center;" onclick="toggleDropdown()">
+            <span id="gateFieldText" style="text-align:left;flex:1;">请选择</span>
+            <span style="font-size:11px;color:#999;">▼</span>
+          </div>
+          <div class="multi-select-options" id="gateFieldOptions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-top:none;z-index:10;max-height:150px;overflow-y:auto;">
+            <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;border-bottom:1px solid #f0f0f0;">
+              <input type="checkbox" value="集卡车车牌号" onchange="updateGateFieldText()"> 集卡车车牌号
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;border-bottom:1px solid #f0f0f0;">
+              <input type="checkbox" value="集装箱号" onchange="updateGateFieldText()"> 集装箱号
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;">
+              <input type="checkbox" value="车挂号" onchange="updateGateFieldText()"> 车挂号
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-form-group">
+        <label>状态<span class="required">*</span></label>
+        <select>
+          <option>启用</option>
+          <option>禁用</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="toggleModal()">取消</button>
+      <button class="btn btn-primary" onclick="toggleModal()">确定</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleModal() {
+    document.getElementById('modalOverlay').classList.toggle('show');
+  }
+
+  function toggleDropdown() {
+    var opts = document.getElementById('gateFieldOptions');
+    opts.style.display = opts.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function updateGateFieldText() {
+    var checkboxes = document.querySelectorAll('#gateFieldOptions input[type="checkbox"]:checked');
+    var text = document.getElementById('gateFieldText');
+    if (checkboxes.length === 0) {
+      text.textContent = '请选择';
+    } else {
+      var values = [];
+      checkboxes.forEach(function(cb) { values.push(cb.value); });
+      text.textContent = values.join('、');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    var dropdown = document.getElementById('gateFieldDropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+      document.getElementById('gateFieldOptions').style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
