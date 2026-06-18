@@ -735,13 +735,10 @@
 
   /* ===== 高级筛选侧边弹框 ===== */
   .advanced-filter-drawer {
-    position: fixed;
-    top: 0; right: 0;
     width: 420px;
     height: 100vh;
     background: #fff;
     border-left: 1px solid #ddd;
-    z-index: 2000;
     display: none;
     flex-direction: column;
   }
@@ -818,13 +815,23 @@
   .drawer-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.25);
     z-index: 1999;
     display: none;
+    justify-content: flex-end;
   }
 
   .drawer-overlay.show {
-    display: block;
+    display: flex;
+  }
+
+  .drawer-panel {
+    width: 680px;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ddd;
   }
 
   /* ===== 响应式 ===== */
@@ -1131,13 +1138,13 @@
 </div>
 
 <!-- ===== 高级筛选侧边弹框 ===== -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
-<div class="advanced-filter-drawer" id="advancedFilterDrawer">
-  <div class="drawer-header">
-    <span class="drawer-title">高级筛选</span>
-    <span class="drawer-close" onclick="toggleDrawer()">×</span>
-  </div>
-  <div class="drawer-body">
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()">
+  <div class="advanced-filter-drawer" id="advancedFilterDrawer" onclick="event.stopPropagation()">
+    <div class="drawer-header">
+      <span class="drawer-title">高级筛选</span>
+      <span class="drawer-close" onclick="toggleDrawer()">×</span>
+    </div>
+    <div class="drawer-body">
     <div class="drawer-form-group">
       <label>预约单号</label>
       <input type="text" placeholder="请输入预约单号">
@@ -1216,9 +1223,10 @@
       </select>
     </div>
   </div>
-  <div class="drawer-footer">
-    <button class="btn btn-outline" onclick="toggleDrawer()">取消</button>
-    <button class="btn btn-primary" onclick="toggleDrawer()">确定</button>
+    <div class="drawer-footer">
+      <button class="btn btn-outline" onclick="toggleDrawer()">取消</button>
+      <button class="btn btn-primary" onclick="toggleDrawer()">确定</button>
+    </div>
   </div>
 </div>
 
@@ -1477,70 +1485,170 @@
   </div>
 </div>
 
-<!-- ===== 查看弹框 ===== -->
-<div class="audit-modal-overlay" id="viewModalOverlay" onclick="if(event.target===this)toggleViewModal()">
-  <div class="audit-modal-box" style="width:720px;">
-    <div class="audit-modal-header">
-      <span class="audit-modal-title">查看进站预约单</span>
-      <span class="audit-modal-close" onclick="toggleViewModal()">×</span>
+<!-- ===== 查看弹框（侧边抽屉） ===== -->
+<div class="drawer-overlay" id="viewModalOverlay" onclick="if(event.target===this)toggleViewModal()">
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <span class="drawer-title">进站预约单详情</span>
+      <span class="drawer-close" onclick="toggleViewModal()">&times;</span>
     </div>
-    <div class="audit-modal-body">
-      <div class="audit-form-grid">
-        <div class="audit-form-item">
-          <label>预约单号</label>
-          <div class="value">YYDH2026061700002</div>
-        </div>
-        <div class="audit-form-item">
-          <label>预约类型</label>
-          <div class="value">提重</div>
-        </div>
-        <div class="audit-form-item">
-          <label>预约进站时间</label>
-          <div class="value">2026-06-01 10:00</div>
-        </div>
-        <div class="audit-form-item">
-          <label>集卡车车牌号</label>
-          <div class="value">京B67890</div>
-        </div>
-        <div class="audit-form-item">
-          <label>司机姓名</label>
-          <div class="value">李四</div>
-        </div>
-        <div class="audit-form-item">
-          <label>手机号码</label>
-          <div class="value">13800138002</div>
-        </div>
-        <div class="audit-form-item">
-          <label>集装箱号</label>
-          <div class="value">—</div>
-        </div>
-        <div class="audit-form-item">
-          <label>预约单来源</label>
-          <div class="value">集装箱订单</div>
-        </div>
-        <div class="audit-form-item">
-          <label>关联订单号</label>
-          <div class="value">ZTLJXABD260601002</div>
-        </div>
-        <div class="audit-form-item">
-          <label>供应商</label>
-          <div class="value">中铁联集青岛分公司</div>
-        </div>
-        <div class="audit-form-item">
-          <label>堆场</label>
-          <div class="value">西安远海国铁物流堆场</div>
-        </div>
-        <div class="audit-form-item">
-          <label>预约状态</label>
-          <div class="value"><span style="color:#1a7f37;">已通过</span></div>
-        </div>
-        <div class="audit-form-item">
-          <label>放行状态</label>
-          <div class="value"><span style="color:#1a7f37;">已放行</span></div>
+    <div class="drawer-body" style="padding:0;">
+
+      <!-- 基础信息 -->
+      <div style="padding:16px 20px;">
+        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee;">基础信息</div>
+        <div class="audit-form-grid">
+          <div class="audit-form-item">
+            <label>预约单号</label>
+            <div class="value">YYDH2026061700002</div>
+          </div>
+          <div class="audit-form-item">
+            <label>预约类型</label>
+            <div class="value">提重</div>
+          </div>
+          <div class="audit-form-item">
+            <label>预约进站时间</label>
+            <div class="value">2026-06-01 10:00</div>
+          </div>
+          <div class="audit-form-item">
+            <label>集卡车车牌号</label>
+            <div class="value">京B67890</div>
+          </div>
+          <div class="audit-form-item">
+            <label>司机姓名</label>
+            <div class="value">李四</div>
+          </div>
+          <div class="audit-form-item">
+            <label>手机号码</label>
+            <div class="value">13800138002</div>
+          </div>
+          <div class="audit-form-item">
+            <label>集装箱号</label>
+            <div class="value">&mdash;</div>
+          </div>
+          <div class="audit-form-item">
+            <label>预约单来源</label>
+            <div class="value">集装箱订单</div>
+          </div>
+          <div class="audit-form-item">
+            <label>关联订单号</label>
+            <div class="value">ZTLJXABD260601002</div>
+          </div>
+          <div class="audit-form-item">
+            <label>供应商</label>
+            <div class="value">中铁联集青岛分公司</div>
+          </div>
+          <div class="audit-form-item">
+            <label>关联堆场</label>
+            <div class="value">西安远海国铁物流堆场</div>
+          </div>
+          <div class="audit-form-item">
+            <label>预约状态</label>
+            <div class="value"><span style="color:#1a7f37;">已通过</span></div>
+          </div>
+          <div class="audit-form-item">
+            <label>放行状态</label>
+            <div class="value"><span style="color:#1a7f37;">已放行</span></div>
+          </div>
         </div>
       </div>
+
+      <!-- 集卡车信息 -->
+      <div style="padding:16px 20px;border-top:1px solid #eee;">
+        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee;">集卡车信息</div>
+
+        <!-- 集卡车基础信息 -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px;">集卡车基础信息</div>
+          <div class="audit-form-grid">
+            <div class="audit-form-item">
+              <label>车牌号</label>
+              <div class="value">京B67890</div>
+            </div>
+            <div class="audit-form-item">
+              <label>所属车队</label>
+              <div class="value">顺达物流车队</div>
+            </div>
+            <div class="audit-form-item">
+              <label>车架识别代码</label>
+              <div class="value">LSVAU2A39EN123456</div>
+            </div>
+            <div class="audit-form-item">
+              <label>发动机号码</label>
+              <div class="value">A1234567</div>
+            </div>
+            <div class="audit-form-item">
+              <label>行驶证(正)有效期至</label>
+              <div class="value">2028-06-01</div>
+            </div>
+            <div class="audit-form-item">
+              <label>尺寸(米)</label>
+              <div class="value">13.95×2.5×3.8</div>
+            </div>
+            <div class="audit-form-item">
+              <label>行驶证照片</label>
+              <div class="value" style="color:#1077de;cursor:default;">查看</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 季卡信息 -->
+        <div style="margin-bottom:16px;">
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px;">季卡信息</div>
+          <div class="audit-form-grid">
+            <div class="audit-form-item">
+              <label>集卡高度</label>
+              <div class="value">3.8</div>
+            </div>
+            <div class="audit-form-item">
+              <label>集卡总质量(KG)</label>
+              <div class="value">25000</div>
+            </div>
+            <div class="audit-form-item">
+              <label>挂车车牌</label>
+              <div class="value">京B6789挂</div>
+            </div>
+            <div class="audit-form-item">
+              <label>挂车识别代码</label>
+              <div class="value">LA9940C42E0123456</div>
+            </div>
+            <div class="audit-form-item">
+              <label>挂车总质量(KG)</label>
+              <div class="value">18000</div>
+            </div>
+            <div class="audit-form-item">
+              <label>挂车尺寸(米)</label>
+              <div class="value">13.75×2.5×4.0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 司机信息 -->
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px;">司机信息</div>
+          <div class="audit-form-grid">
+            <div class="audit-form-item">
+              <label>司机姓名</label>
+              <div class="value">李四</div>
+            </div>
+            <div class="audit-form-item">
+              <label>身份证号</label>
+              <div class="value">610102199001011234</div>
+            </div>
+            <div class="audit-form-item">
+              <label>联系电话</label>
+              <div class="value">13800138002</div>
+            </div>
+            <div class="audit-form-item">
+              <label>驾驶证照片</label>
+              <div class="value" style="color:#1077de;cursor:default;">查看</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="audit-modal-footer">
+    <div class="drawer-footer">
       <button class="btn btn-primary" onclick="toggleViewModal()">关闭</button>
     </div>
   </div>
@@ -1563,6 +1671,7 @@
   function toggleDrawer() {
     document.getElementById('advancedFilterDrawer').classList.toggle('show');
     document.getElementById('drawerOverlay').classList.toggle('show');
+    document.body.style.overflow = document.getElementById('drawerOverlay').classList.contains('show') ? 'hidden' : '';
   }
 
   function toggleModal() {
@@ -1582,6 +1691,7 @@
 
   function toggleViewModal() {
     document.getElementById('viewModalOverlay').classList.toggle('show');
+    document.body.style.overflow = document.getElementById('viewModalOverlay').classList.contains('show') ? 'hidden' : '';
   }
 
   function toggleAlertModal() {
@@ -1675,7 +1785,7 @@
     var plate = document.getElementById('modalPlate');
     var driver = document.getElementById('modalDriver');
     var phone = document.getElementById('modalPhone');
-    if (source === '集装箱订单') {
+    if (source === '集装箱订单' || source === '其他') {
       plate.outerHTML = '<select id="modalPlate" onchange="onPlateChange()"><option>请选择</option><option>京A12345</option><option>京B67890</option><option>京C11111</option></select>';
       driver.setAttribute('readonly', true);
       driver.style.background = '#f5f5f5';
