@@ -698,6 +698,14 @@
                 <option>还空</option>
               </select>
             </div>
+            <div class="filter-item">
+              <label>堆场</label>
+              <select>
+                <option>全部</option>
+                <option>西安中心站</option>
+                <option>西安远海国铁物流堆场</option>
+              </select>
+            </div>
             <div class="filter-actions">
               <button class="btn btn-primary">查询</button>
               <button class="btn btn-outline">重置</button>
@@ -719,6 +727,8 @@
                   <th style="width:44px">序号</th>
                   <th style="min-width:100px">预约类型</th>
                   <th style="min-width:180px">闸机识别字段</th>
+                  <th style="min-width:140px">堆场</th>
+                  <th style="min-width:180px">关联堆场</th>
                   <th style="min-width:80px">状态</th>
                   <th style="min-width:180px">操作</th>
                 </tr>
@@ -728,6 +738,8 @@
                   <td>1</td>
                   <td>提空</td>
                   <td>集卡车车牌号</td>
+                  <td>西安中心站</td>
+                  <td>西安中心站</td>
                   <td><span style="color:#1a7f37;">启用</span></td>
                   <td>
                     <button class="action-btn primary">编辑</button>
@@ -738,6 +750,8 @@
                   <td>2</td>
                   <td>提重</td>
                   <td>集卡车车牌号、集装箱号</td>
+                  <td>西安远海国铁物流堆场</td>
+                  <td>西安中心站、西安远海国铁物流堆场</td>
                   <td><span style="color:#1a7f37;">启用</span></td>
                   <td>
                     <button class="action-btn primary">编辑</button>
@@ -748,6 +762,8 @@
                   <td>3</td>
                   <td>落重</td>
                   <td>集卡车车牌号、集装箱号、车挂号</td>
+                  <td>西安中心站</td>
+                  <td>西安远海国铁物流堆场</td>
                   <td><span style="color:#1a7f37;">启用</span></td>
                   <td>
                     <button class="action-btn primary">编辑</button>
@@ -758,6 +774,8 @@
                   <td>4</td>
                   <td>还空</td>
                   <td>集装箱号</td>
+                  <td>西安远海国铁物流堆场</td>
+                  <td>西安中心站、西安远海国铁物流堆场</td>
                   <td><span style="color:#1a7f37;">启用</span></td>
                   <td>
                     <button class="action-btn primary">编辑</button>
@@ -768,6 +786,8 @@
                   <td>5</td>
                   <td>提空</td>
                   <td>车挂号</td>
+                  <td>西安中心站</td>
+                  <td>西安中心站</td>
                   <td><span style="color:#999;">禁用</span></td>
                   <td>
                     <button class="action-btn primary">编辑</button>
@@ -841,6 +861,31 @@
         </div>
       </div>
       <div class="modal-form-group">
+        <label>堆场<span class="required">*</span></label>
+        <select>
+          <option value="">请选择</option>
+          <option>西安中心站</option>
+          <option>西安远海国铁物流堆场</option>
+        </select>
+      </div>
+      <div class="modal-form-group" style="align-items:flex-start;">
+        <label style="padding-top:7px;">关联堆场<span class="required">*</span></label>
+        <div class="multi-select-dropdown" style="flex:1;position:relative;" id="relYardDropdown">
+          <div class="multi-select-trigger" style="padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;color:#333;cursor:default;display:flex;justify-content:space-between;align-items:center;" onclick="toggleRelYardDropdown()">
+            <span id="relYardText" style="text-align:left;flex:1;">请选择</span>
+            <span style="font-size:11px;color:#999;">▼</span>
+          </div>
+          <div class="multi-select-options" id="relYardOptions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-top:none;z-index:10;max-height:150px;overflow-y:auto;">
+            <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;border-bottom:1px solid #f0f0f0;">
+              <input type="checkbox" value="西安中心站" onchange="updateRelYardText()"> 西安中心站
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;">
+              <input type="checkbox" value="西安远海国铁物流堆场" onchange="updateRelYardText()"> 西安远海国铁物流堆场
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-form-group">
         <label>状态<span class="required">*</span></label>
         <select>
           <option>启用</option>
@@ -882,7 +927,28 @@
     if (dropdown && !dropdown.contains(e.target)) {
       document.getElementById('gateFieldOptions').style.display = 'none';
     }
+    var relDropdown = document.getElementById('relYardDropdown');
+    if (relDropdown && !relDropdown.contains(e.target)) {
+      document.getElementById('relYardOptions').style.display = 'none';
+    }
   });
+
+  function toggleRelYardDropdown() {
+    var opts = document.getElementById('relYardOptions');
+    opts.style.display = opts.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function updateRelYardText() {
+    var checkboxes = document.querySelectorAll('#relYardOptions input[type="checkbox"]:checked');
+    var text = document.getElementById('relYardText');
+    if (checkboxes.length === 0) {
+      text.textContent = '请选择';
+    } else {
+      var values = [];
+      checkboxes.forEach(function(cb) { values.push(cb.value); });
+      text.textContent = values.join('、');
+    }
+  }
 </script>
 
 </body>
