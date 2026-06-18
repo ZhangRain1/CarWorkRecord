@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>闸口放行配置 - 原型图</title>
+<title>闸口放行配置 & 进站预约单 - 原型图</title>
 <style>
   /* ===== 全局重置&线框图风格 ===== */
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -123,7 +123,7 @@
     padding: 14px 20px;
     font-size: 14px;
     color: #333;
-    cursor: default;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -159,7 +159,7 @@
     font-size: 14px;
     color: #555;
     border-top: 1px dashed #e0e0e0;
-    cursor: default;
+    cursor: pointer;
     user-select: none;
   }
 
@@ -201,7 +201,7 @@
     color: #666;
     background: #f5f5f5;
     border: 1px solid #ddd;
-    cursor: default;
+    cursor: pointer;
     user-select: none;
   }
 
@@ -518,7 +518,7 @@
     border-color: #cf222e;
   }
 
-  /* ===== 弹框 ===== */
+  /* ===== 弹框（闸口放行配置） ===== */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -616,6 +616,260 @@
     background: #fafafa;
   }
 
+  /* ===== 进站预约单弹框样式 ===== */
+  .modal-box {
+    width: 560px;
+    max-height: 85vh;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== 提醒弹框 ===== */
+  .alert-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 5000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .alert-modal-overlay.show {
+    display: flex;
+  }
+
+  .alert-modal-box {
+    width: 360px;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .alert-modal-body {
+    padding: 24px 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .alert-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 20px 20px 20px;
+  }
+
+  /* ===== 审核弹框 ===== */
+  .audit-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 4000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .audit-modal-overlay.show {
+    display: flex;
+  }
+
+  .audit-modal-box {
+    width: 720px;
+    max-height: 85vh;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .audit-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .audit-modal-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .audit-modal-close {
+    font-size: 20px;
+    color: #999;
+    cursor: default;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .audit-modal-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .audit-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+  }
+
+  .audit-form-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .audit-form-item label {
+    width: 100px;
+    min-width: 100px;
+    font-size: 13px;
+    color: #555;
+    text-align: right;
+  }
+
+  .audit-form-item .value {
+    flex: 1;
+    font-size: 13px;
+    color: #333;
+    padding: 7px 10px;
+    border: 1px solid #eee;
+    background: #fafafa;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  .audit-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  /* ===== 高级筛选侧边弹框 ===== */
+  .advanced-filter-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 420px;
+    height: 100vh;
+    background: #fff;
+    border-left: 1px solid #ddd;
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+  }
+
+  .advanced-filter-drawer.show {
+    display: flex;
+  }
+
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .drawer-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .drawer-close {
+    font-size: 20px;
+    color: #999;
+    cursor: default;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .drawer-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .drawer-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .drawer-form-group label {
+    width: 100px;
+    min-width: 100px;
+    font-size: 13px;
+    color: #555;
+    text-align: right;
+  }
+
+  .drawer-form-group input,
+  .drawer-form-group select {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+  }
+
+  .drawer-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .drawer-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 1999;
+    display: none;
+  }
+
+  .drawer-overlay.show {
+    display: block;
+  }
+
+  /* ===== 页面切换容器 ===== */
+  .page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .page-wrapper > div {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .page-wrapper > div.active-page {
+    display: flex;
+  }
+
   /* ===== 响应式 ===== */
   @media (max-width: 1024px) {
     .sidebar { width: 180px; min-width: 180px; }
@@ -644,7 +898,7 @@
   <header class="header">
     <div class="header-left">
       <div class="header-logo-placeholder"></div>
-      <span class="header-title">中铁联集经营管理平台总公司</span>
+      <span class="header-title">中铁联集经营管理平台西安分公司</span>
     </div>
     <div class="header-right">
       <span class="header-username">王小明</span>
@@ -660,12 +914,21 @@
     <!-- ===== 左侧菜单区 ===== -->
     <aside class="sidebar">
       <div class="menu-section">
-        <div class="menu-item active">
+        <div class="menu-item active" onclick="switchPage('gate')">
           <span>基础数据</span>
-          <span class="menu-arrow open">▶</span>
+          <span class="menu-arrow open">&#9654;</span>
         </div>
         <ul class="sub-menu">
-          <li class="active">闸口放行配置</li>
+          <li class="active" id="menu-gate" onclick="switchPage('gate')">闸口放行配置</li>
+        </ul>
+      </div>
+      <div class="menu-section">
+        <div class="menu-item" onclick="switchPage('appointment')">
+          <span>经营业务管理</span>
+          <span class="menu-arrow open">&#9654;</span>
+        </div>
+        <ul class="sub-menu">
+          <li id="menu-appointment" onclick="switchPage('appointment')">进站预约单</li>
         </ul>
       </div>
     </aside>
@@ -675,165 +938,397 @@
 
       <!-- 顶部导航页签（块状 + 关闭按钮） -->
       <div class="nav-tabs-bar">
-        <div class="nav-tab active">
+        <div class="nav-tab active" id="tab-gate" onclick="switchPage('gate')">
           <span>闸口放行配置</span>
-          <span class="nav-tab-close">×</span>
+          <span class="nav-tab-close">&times;</span>
+        </div>
+        <div class="nav-tab" id="tab-appointment" onclick="switchPage('appointment')">
+          <span>进站预约单</span>
+          <span class="nav-tab-close">&times;</span>
         </div>
       </div>
 
-      <!-- 内容主体 -->
-      <div class="content-body">
+      <!-- 内容主体（页面切换容器） -->
+      <div class="page-wrapper">
 
-        <!-- 数据筛选 -->
-        <div class="filter-section">
-          <div class="section-title-bar">数据筛选</div>
-          <div class="filter-row">
-            <div class="filter-item">
-              <label>预约类型</label>
-              <select>
-                <option>全部</option>
-                <option>提空</option>
-                <option>提重</option>
-                <option>落重</option>
-                <option>还空</option>
-              </select>
+        <!-- ====== 页面1：闸口放行配置 ====== -->
+        <div id="page-gate" class="active-page">
+          <div class="content-body">
+
+            <!-- 数据筛选 -->
+            <div class="filter-section">
+              <div class="section-title-bar">数据筛选</div>
+              <div class="filter-row">
+                <div class="filter-item">
+                  <label>预约类型</label>
+                  <select>
+                    <option>全部</option>
+                    <option>提空</option>
+                    <option>提重</option>
+                    <option>落重</option>
+                    <option>还空</option>
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <label>堆场</label>
+                  <select>
+                    <option>全部</option>
+                    <option>西安中心站</option>
+                    <option>西安远海国铁物流堆场</option>
+                  </select>
+                </div>
+                <div class="filter-actions">
+                  <button class="btn btn-primary">查询</button>
+                  <button class="btn btn-outline">重置</button>
+                </div>
+              </div>
             </div>
-            <div class="filter-item">
-              <label>堆场</label>
-              <select>
-                <option>全部</option>
-                <option>西安中心站</option>
-                <option>西安远海国铁物流堆场</option>
-              </select>
+
+            <!-- 数据列表 -->
+            <div class="table-section">
+              <div class="table-header-bar">
+                <span class="title">数据列表</span>
+                <button class="btn btn-primary" onclick="toggleGateModal()">+ 新增</button>
+              </div>
+
+              <div class="table-scroll-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:44px">序号</th>
+                      <th style="min-width:100px">预约类型</th>
+                      <th style="min-width:180px">闸机识别字段</th>
+                      <th style="min-width:140px">堆场</th>
+                      <th style="min-width:180px">关联堆场</th>
+                      <th style="min-width:80px">状态</th>
+                      <th style="min-width:180px">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>提空</td>
+                      <td>集卡车车牌号</td>
+                      <td>西安中心站</td>
+                      <td>西安中心站</td>
+                      <td><span style="color:#1a7f37;">启用</span></td>
+                      <td>
+                        <button class="action-btn primary">编辑</button>
+                        <button class="action-btn danger">禁用</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>提重</td>
+                      <td>集卡车车牌号、集装箱号</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td>西安中心站、西安远海国铁物流堆场</td>
+                      <td><span style="color:#1a7f37;">启用</span></td>
+                      <td>
+                        <button class="action-btn primary">编辑</button>
+                        <button class="action-btn danger">禁用</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>落重</td>
+                      <td>集卡车车牌号、集装箱号、车挂号</td>
+                      <td>西安中心站</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td><span style="color:#1a7f37;">启用</span></td>
+                      <td>
+                        <button class="action-btn primary">编辑</button>
+                        <button class="action-btn danger">禁用</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>还空</td>
+                      <td>集装箱号</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td>西安中心站、西安远海国铁物流堆场</td>
+                      <td><span style="color:#1a7f37;">启用</span></td>
+                      <td>
+                        <button class="action-btn primary">编辑</button>
+                        <button class="action-btn danger">禁用</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>5</td>
+                      <td>提空</td>
+                      <td>车挂号</td>
+                      <td>西安中心站</td>
+                      <td>西安中心站</td>
+                      <td><span style="color:#999;">禁用</span></td>
+                      <td>
+                        <button class="action-btn primary">编辑</button>
+                        <button class="action-btn success">启用</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- 列表下方数据记录与翻页（均在右下角） -->
+              <div class="table-footer-info">
+                <div class="record-info">共5条</div>
+                <div class="page-size-control">
+                  <select>
+                    <option>10条</option>
+                    <option selected>20条</option>
+                    <option>50条</option>
+                    <option>100条</option>
+                  </select>
+                </div>
+                <div class="pagination-controls">
+                  <span class="page-btn disabled">&#8249;</span>
+                  <span class="page-btn active">1</span>
+                  <span class="page-btn">&#8250;</span>
+                </div>
+              </div>
             </div>
-            <div class="filter-actions">
-              <button class="btn btn-primary">查询</button>
-              <button class="btn btn-outline">重置</button>
-            </div>
+
           </div>
         </div>
 
-        <!-- 数据列表 -->
-        <div class="table-section">
-          <div class="table-header-bar">
-            <span class="title">数据列表</span>
-            <button class="btn btn-primary" onclick="toggleModal()">+ 新增</button>
-          </div>
+        <!-- ====== 页面2：进站预约单 ====== -->
+        <div id="page-appointment">
+          <div class="content-body">
 
-          <div class="table-scroll-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:44px">序号</th>
-                  <th style="min-width:100px">预约类型</th>
-                  <th style="min-width:180px">闸机识别字段</th>
-                  <th style="min-width:140px">堆场</th>
-                  <th style="min-width:180px">关联堆场</th>
-                  <th style="min-width:80px">状态</th>
-                  <th style="min-width:180px">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>提空</td>
-                  <td>集卡车车牌号</td>
-                  <td>西安中心站</td>
-                  <td>西安中心站</td>
-                  <td><span style="color:#1a7f37;">启用</span></td>
-                  <td>
-                    <button class="action-btn primary">编辑</button>
-                    <button class="action-btn danger">禁用</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>提重</td>
-                  <td>集卡车车牌号、集装箱号</td>
-                  <td>西安远海国铁物流堆场</td>
-                  <td>西安中心站、西安远海国铁物流堆场</td>
-                  <td><span style="color:#1a7f37;">启用</span></td>
-                  <td>
-                    <button class="action-btn primary">编辑</button>
-                    <button class="action-btn danger">禁用</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>落重</td>
-                  <td>集卡车车牌号、集装箱号、车挂号</td>
-                  <td>西安中心站</td>
-                  <td>西安远海国铁物流堆场</td>
-                  <td><span style="color:#1a7f37;">启用</span></td>
-                  <td>
-                    <button class="action-btn primary">编辑</button>
-                    <button class="action-btn danger">禁用</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>还空</td>
-                  <td>集装箱号</td>
-                  <td>西安远海国铁物流堆场</td>
-                  <td>西安中心站、西安远海国铁物流堆场</td>
-                  <td><span style="color:#1a7f37;">启用</span></td>
-                  <td>
-                    <button class="action-btn primary">编辑</button>
-                    <button class="action-btn danger">禁用</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>提空</td>
-                  <td>车挂号</td>
-                  <td>西安中心站</td>
-                  <td>西安中心站</td>
-                  <td><span style="color:#999;">禁用</span></td>
-                  <td>
-                    <button class="action-btn primary">编辑</button>
-                    <button class="action-btn success">启用</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <!-- 数据筛选 -->
+            <div class="filter-section">
+              <div class="section-title-bar">数据筛选</div>
+              <div class="filter-row">
+                <div class="filter-item">
+                  <label>预约单号</label>
+                  <input type="text" placeholder="请输入预约单号">
+                </div>
+                <div class="filter-item">
+                  <label>关联订单号</label>
+                  <input type="text" placeholder="请输入关联订单号">
+                </div>
+                <div class="filter-item">
+                  <label>堆场</label>
+                  <select>
+                    <option>全部</option>
+                    <option>西安中心站</option>
+                    <option>西安远海国铁物流堆场</option>
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <label>预约类型</label>
+                  <select>
+                    <option>全部</option>
+                    <option>提空</option>
+                    <option>提重</option>
+                    <option>落重</option>
+                    <option>还空</option>
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <label>集卡车车牌号</label>
+                  <input type="text" placeholder="请输入车牌号">
+                </div>
+                <div class="filter-item">
+                  <label>司机姓名</label>
+                  <input type="text" placeholder="请输入司机姓名">
+                </div>
+                <div class="filter-actions">
+                  <button class="btn btn-primary">查询</button>
+                  <button class="btn btn-outline">重置</button>
+                  <button class="btn btn-outline" onclick="toggleDrawer()">高级筛选</button>
+                </div>
+              </div>
+            </div>
 
-          <!-- 列表下方数据记录与翻页（均在右下角） -->
-          <div class="table-footer-info">
-            <div class="record-info">共5条</div>
-            <div class="page-size-control">
-              <select>
-                <option>10条</option>
-                <option selected>20条</option>
-                <option>50条</option>
-                <option>100条</option>
-              </select>
+            <!-- 数据列表 -->
+            <div class="table-section">
+              <div class="table-header-bar">
+                <span class="title">数据列表</span>
+                <button class="btn btn-primary" onclick="toggleAppointmentModal()">+ 新增</button>
+              </div>
+
+              <div class="table-scroll-wrapper">
+                <table style="min-width:1200px;">
+                  <thead>
+                    <tr>
+                      <th style="width:44px">序号</th>
+                      <th style="min-width:180px">预约单号</th>
+                      <th style="min-width:180px">关联订单号</th>
+                      <th style="min-width:80px">预约类型</th>
+                      <th style="min-width:140px">预约进站时间</th>
+                      <th style="min-width:120px">集卡车车牌号</th>
+                      <th style="min-width:80px">司机姓名</th>
+                      <th style="min-width:110px">手机号码</th>
+                      <th style="min-width:120px">集装箱号</th>
+                      <th style="min-width:90px">预约单来源</th>
+                      <th style="min-width:160px">供应商</th>
+                      <th style="min-width:160px">堆场</th>
+                      <th style="min-width:80px">预约状态</th>
+                      <th style="min-width:80px">放行状态</th>
+                      <th style="min-width:80px;position:sticky;right:0;z-index:2;background:#f5f5f5;">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>YYDH2026061700001</td>
+                      <td><a href="#" style="color:#1077de;text-decoration:none;cursor:default;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">ZTLJXABD260601001</a></td>
+                      <td>提空</td>
+                      <td>2026-06-01 08:00</td>
+                      <td>京A12345</td>
+                      <td>张三</td>
+                      <td>13800138001</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>集装箱订单</td>
+                      <td>中铁联集西安分公司</td>
+                      <td>西安中心站</td>
+                      <td><span style="color:#e6a23c;">待审核</span></td>
+                      <td><span style="color:#999;">待放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleAuditModal()">审核</button>
+                        <button class="action-btn" style="color:#cf222e;border-color:#cf222e;" onclick="toggleAlertModal()">取消</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>YYDH2026061700002</td>
+                      <td><a href="#" style="color:#1077de;text-decoration:none;cursor:default;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">ZTLJXABD260601002</a></td>
+                      <td>提重</td>
+                      <td>2026-06-01 10:00</td>
+                      <td>京B67890</td>
+                      <td>李四</td>
+                      <td>13800138002</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>集装箱订单</td>
+                      <td>中铁联集青岛分公司</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td><span style="color:#1a7f37;">已通过</span></td>
+                      <td><span style="color:#1a7f37;">已放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleViewModal()">查看</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>YYDH2026061700003</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>落重</td>
+                      <td>2026-06-01 14:00</td>
+                      <td>京C11111</td>
+                      <td>王五</td>
+                      <td>13800138003</td>
+                      <td>OOLU3456789</td>
+                      <td>其他</td>
+                      <td>长春丰泰物流有限公司</td>
+                      <td>西安中心站</td>
+                      <td><span style="color:#cf222e;">已拒绝</span></td>
+                      <td><span style="color:#999;">待放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleEditModal()">编辑</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>YYDH2026061700004</td>
+                      <td><a href="#" style="color:#1077de;text-decoration:none;cursor:default;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">ZTLJXABD260601004</a></td>
+                      <td>还空</td>
+                      <td>2026-06-02 09:00</td>
+                      <td>京D22222</td>
+                      <td>赵六</td>
+                      <td>13800138004</td>
+                      <td>CSLU4567890</td>
+                      <td>集装箱订单</td>
+                      <td>中铁联集西安分公司</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td><span style="color:#1a7f37;">已通过</span></td>
+                      <td><span style="color:#1a7f37;">已放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleViewModal()">查看</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>5</td>
+                      <td>YYDH2026061700005</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>提空</td>
+                      <td>2026-06-02 11:00</td>
+                      <td>京E33333</td>
+                      <td>孙七</td>
+                      <td>13800138005</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>其他</td>
+                      <td>中铁联集青岛分公司</td>
+                      <td>西安中心站</td>
+                      <td><span style="color:#999;">已取消</span></td>
+                      <td><span style="color:#999;">待放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleEditModal()">编辑</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>6</td>
+                      <td>YYDH2026061700006</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>提重</td>
+                      <td>2026-06-03 09:30</td>
+                      <td>京F44444</td>
+                      <td>周八</td>
+                      <td>13800138006</td>
+                      <td style="color:#ccc;">&mdash;</td>
+                      <td>其他</td>
+                      <td>中铁联集西安分公司</td>
+                      <td>西安远海国铁物流堆场</td>
+                      <td><span style="color:#999;">草稿</span></td>
+                      <td><span style="color:#999;">待放行</span></td>
+                      <td style="position:sticky;right:0;z-index:1;background:#fff;">
+                        <button class="action-btn primary" onclick="toggleEditModal()">编辑</button>
+                        <button class="action-btn" style="color:#cf222e;border-color:#cf222e;" onclick="toggleAlertModal()">取消</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- 列表下方数据记录与翻页（均在右下角） -->
+              <div class="table-footer-info">
+                <div class="record-info">共5条</div>
+                <div class="page-size-control">
+                  <select>
+                    <option>10条</option>
+                    <option selected>20条</option>
+                    <option>50条</option>
+                    <option>100条</option>
+                  </select>
+                </div>
+                <div class="pagination-controls">
+                  <span class="page-btn disabled">&#8249;</span>
+                  <span class="page-btn active">1</span>
+                  <span class="page-btn">&#8250;</span>
+                </div>
+              </div>
             </div>
-            <div class="pagination-controls">
-              <span class="page-btn disabled">‹</span>
-              <span class="page-btn active">1</span>
-              <span class="page-btn">›</span>
-            </div>
+
           </div>
         </div>
 
-      </div>
+      </div><!-- /page-wrapper -->
 
     </main>
   </div>
 
   <!-- 底部标注 -->
   <div style="border-top: 1px solid #ddd; padding: 10px 24px; font-size: 12px; color: #aaa; text-align: center; background: #fafafa;">
-    原型图 · 闸口放行配置模块
+    原型图 &middot; 闸口放行配置 &amp; 进站预约单模块
   </div>
 </div>
 
-<!-- ===== 新增弹框 ===== -->
-<div class="modal-overlay" id="modalOverlay" onclick="toggleModal()">
+<!-- ===== 闸口放行配置 - 新增弹框 ===== -->
+<div class="modal-overlay" id="gateModalOverlay" onclick="toggleGateModal()">
   <div class="modal-panel" onclick="event.stopPropagation()">
     <div class="modal-header">
       <span class="modal-title">新增闸口放行配置</span>
-      <span class="modal-close" onclick="toggleModal()">×</span>
+      <span class="modal-close" onclick="toggleGateModal()">&times;</span>
     </div>
     <div class="modal-body">
       <div class="modal-form-group">
@@ -845,7 +1340,7 @@
         <div class="multi-select-dropdown" style="flex:1;position:relative;" id="gateFieldDropdown">
           <div class="multi-select-trigger" style="padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;color:#333;cursor:default;display:flex;justify-content:space-between;align-items:center;" onclick="toggleDropdown()">
             <span id="gateFieldText" style="text-align:left;flex:1;">请选择</span>
-            <span style="font-size:11px;color:#999;">▼</span>
+            <span style="font-size:11px;color:#999;">&#9660;</span>
           </div>
           <div class="multi-select-options" id="gateFieldOptions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-top:none;z-index:10;max-height:150px;overflow-y:auto;">
             <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;border-bottom:1px solid #f0f0f0;">
@@ -873,7 +1368,7 @@
         <div class="multi-select-dropdown" style="flex:1;position:relative;" id="relYardDropdown">
           <div class="multi-select-trigger" style="padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;color:#333;cursor:default;display:flex;justify-content:space-between;align-items:center;" onclick="toggleRelYardDropdown()">
             <span id="relYardText" style="text-align:left;flex:1;">请选择</span>
-            <span style="font-size:11px;color:#999;">▼</span>
+            <span style="font-size:11px;color:#999;">&#9660;</span>
           </div>
           <div class="multi-select-options" id="relYardOptions" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-top:none;z-index:10;max-height:150px;overflow-y:auto;">
             <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:13px;color:#555;cursor:default;border-bottom:1px solid #f0f0f0;">
@@ -894,15 +1389,472 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="toggleModal()">取消</button>
-      <button class="btn btn-primary" onclick="toggleModal()">确定</button>
+      <button class="btn btn-outline" onclick="toggleGateModal()">取消</button>
+      <button class="btn btn-primary" onclick="toggleGateModal()">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 高级筛选侧边弹框 ===== -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+<div class="advanced-filter-drawer" id="advancedFilterDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">高级筛选</span>
+    <span class="drawer-close" onclick="toggleDrawer()">&times;</span>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-form-group">
+      <label>预约单号</label>
+      <input type="text" placeholder="请输入预约单号">
+    </div>
+    <div class="drawer-form-group">
+      <label>预约类型</label>
+      <select>
+        <option>全部</option>
+        <option>提空</option>
+        <option>提重</option>
+        <option>落重</option>
+        <option>还空</option>
+      </select>
+    </div>
+    <div class="drawer-form-group">
+      <label>预约进站时间</label>
+      <input type="text" placeholder="请选择时间范围">
+    </div>
+    <div class="drawer-form-group">
+      <label>集卡车车牌号</label>
+      <input type="text" placeholder="请输入车牌号">
+    </div>
+    <div class="drawer-form-group">
+      <label>司机姓名</label>
+      <input type="text" placeholder="请输入司机姓名">
+    </div>
+    <div class="drawer-form-group">
+      <label>手机号码</label>
+      <input type="text" placeholder="请输入手机号码">
+    </div>
+    <div class="drawer-form-group">
+      <label>预约单来源</label>
+      <select>
+        <option>全部</option>
+        <option>集装箱订单</option>
+        <option>其他</option>
+      </select>
+    </div>
+    <div class="drawer-form-group">
+      <label>关联订单号</label>
+      <input type="text" placeholder="请输入关联订单号">
+    </div>
+    <div class="drawer-form-group">
+      <label>预约状态</label>
+      <select>
+        <option>全部</option>
+        <option>待审核</option>
+        <option>已通过</option>
+        <option>已拒绝</option>
+        <option>已取消</option>
+      </select>
+    </div>
+    <div class="drawer-form-group">
+      <label>放行状态</label>
+      <select>
+        <option>全部</option>
+        <option>已放行</option>
+        <option>待放行</option>
+      </select>
+    </div>
+    <div class="drawer-form-group">
+      <label>供应商</label>
+      <select>
+        <option>全部</option>
+        <option>中铁联集西安分公司</option>
+        <option>中铁联集青岛分公司</option>
+        <option>长春丰泰物流有限公司</option>
+      </select>
+    </div>
+    <div class="drawer-form-group">
+      <label>堆场</label>
+      <select>
+        <option>全部</option>
+        <option>西安中心站</option>
+        <option>西安远海国铁物流堆场</option>
+      </select>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn btn-outline" onclick="toggleDrawer()">取消</button>
+    <button class="btn btn-primary" onclick="toggleDrawer()">确定</button>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 新增弹框 ===== -->
+<div class="modal-overlay" id="appointmentModalOverlay" onclick="if(event.target===this)toggleAppointmentModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">新增进站预约单</span>
+      <span class="modal-close" onclick="toggleAppointmentModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-form-group">
+        <label>预约单号<span class="required">*</span></label>
+        <input type="text" placeholder="系统自动生成" disabled style="background:#f5f5f5;">
+      </div>
+      <div class="modal-form-group">
+        <label>供应商<span class="required">*</span></label>
+        <select>
+          <option>请选择</option>
+          <option>中铁联集西安分公司</option>
+          <option>中铁联集青岛分公司</option>
+          <option>长春丰泰物流有限公司</option>
+        </select>
+      </div>
+      <div class="modal-form-group">
+        <label>堆场<span class="required">*</span></label>
+        <select>
+          <option>请选择</option>
+          <option>西安中心站</option>
+          <option>西安远海国铁物流堆场</option>
+        </select>
+      </div>
+      <div class="modal-form-group">
+        <label>预约类型<span class="required">*</span></label>
+        <select>
+          <option>请选择</option>
+          <option>提空</option>
+          <option>提重</option>
+          <option>落重</option>
+          <option>还空</option>
+        </select>
+      </div>
+      <div class="modal-form-group" style="position:relative;">
+        <label>预约进站时间<span class="required">*</span></label>
+        <div style="flex:1;position:relative;">
+          <input type="text" id="modalDateTime" placeholder="请选择预约进站时间" readonly onclick="toggleDateTimePicker()" style="width:100%;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;cursor:default;">
+          <div id="dateTimePicker" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ccc;border-top:none;z-index:10;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+            <div style="display:flex;gap:8px;padding:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #eee;">
+              <select id="dtpYear" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+              <select id="dtpMonth" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+              <select id="dtpDay" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+              <span style="color:#999;font-size:13px;">|</span>
+              <select id="dtpHour" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+              <span style="color:#999;font-size:13px;">:</span>
+              <select id="dtpMinute" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+              <span style="color:#999;font-size:13px;">:</span>
+              <select id="dtpSecond" onchange="updateDateTimePreview()" style="padding:4px 6px;border:1px solid #ccc;font-size:13px;font-family:inherit;"></select>
+            </div>
+            <div style="padding:8px 10px;text-align:right;">
+              <button class="btn btn-primary" style="padding:5px 16px;font-size:12px;" onclick="confirmDateTime()">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-form-group">
+        <label>预约单来源<span class="required">*</span></label>
+        <select id="modalSource" onchange="onSourceChange()">
+          <option>请选择</option>
+          <option>集装箱订单</option>
+          <option>其他</option>
+        </select>
+      </div>
+      <div class="modal-form-group">
+        <label>集卡车车牌号<span class="required">*</span></label>
+        <input type="text" id="modalPlate" placeholder="请输入集卡车车牌号">
+      </div>
+      <div class="modal-form-group">
+        <label>司机姓名<span class="required">*</span></label>
+        <input type="text" id="modalDriver" placeholder="请输入司机姓名">
+      </div>
+      <div class="modal-form-group">
+        <label>手机号码<span class="required">*</span></label>
+        <input type="text" id="modalPhone" placeholder="请输入手机号码">
+      </div>
+      <div class="modal-form-group">
+        <label>集装箱号</label>
+        <input type="text" placeholder="请输入集装箱号">
+      </div>
+      <div class="modal-form-group">
+        <label>关联订单号</label>
+        <input type="text" placeholder="请输入关联订单号">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="toggleAppointmentModal()">取消</button>
+      <button class="btn btn-primary" onclick="toggleAppointmentModal()">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 审核弹框 ===== -->
+<div class="audit-modal-overlay" id="auditModalOverlay" onclick="if(event.target===this)toggleAuditModal()">
+  <div class="audit-modal-box">
+    <div class="audit-modal-header">
+      <span class="audit-modal-title">审核进站预约单</span>
+      <span class="audit-modal-close" onclick="toggleAuditModal()">&times;</span>
+    </div>
+    <div class="audit-modal-body">
+      <div class="audit-form-grid">
+        <div class="audit-form-item">
+          <label>预约单号</label>
+          <div class="value" id="auditOrderNo">YYDH2026061700001</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约类型</label>
+          <div class="value" id="auditType">提空</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约进站时间</label>
+          <div class="value" id="auditTime">2026-06-01 08:00</div>
+        </div>
+        <div class="audit-form-item">
+          <label>集卡车车牌号</label>
+          <div class="value" id="auditPlate">京A12345</div>
+        </div>
+        <div class="audit-form-item">
+          <label>司机姓名</label>
+          <div class="value" id="auditDriver">张三</div>
+        </div>
+        <div class="audit-form-item">
+          <label>手机号码</label>
+          <div class="value" id="auditPhone">13800138001</div>
+        </div>
+        <div class="audit-form-item">
+          <label>集装箱号</label>
+          <div class="value" id="auditContainer">&mdash;</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约单来源</label>
+          <div class="value" id="auditSource">集装箱订单</div>
+        </div>
+        <div class="audit-form-item">
+          <label>关联订单号</label>
+          <div class="value" id="auditRelOrder">ZTLJXABD260601001</div>
+        </div>
+        <div class="audit-form-item">
+          <label>供应商</label>
+          <div class="value" id="auditCompany">中铁联集西安分公司</div>
+        </div>
+        <div class="audit-form-item">
+          <label>堆场</label>
+          <div class="value">西安中心站</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;border-top:1px solid #eee;padding-top:16px;">
+        <div style="font-size:13px;font-weight:600;color:#444;margin-bottom:12px;">审核意见</div>
+        <div style="display:flex;gap:24px;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#555;cursor:default;">
+            <input type="radio" name="auditOpinion" value="通过" style="width:auto;min-width:auto;"> 通过
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#555;cursor:default;">
+            <input type="radio" name="auditOpinion" value="拒绝" style="width:auto;min-width:auto;"> 拒绝
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="audit-modal-footer">
+      <button class="btn btn-outline" onclick="toggleAuditModal()">取消</button>
+      <button class="btn btn-primary" onclick="toggleAuditModal()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 编辑弹框 ===== -->
+<div class="audit-modal-overlay" id="editModalOverlay" onclick="if(event.target===this)toggleEditModal()">
+  <div class="audit-modal-box" style="width:720px;">
+    <div class="audit-modal-header">
+      <span class="audit-modal-title">编辑进站预约单</span>
+      <span class="audit-modal-close" onclick="toggleEditModal()">&times;</span>
+    </div>
+    <div class="audit-modal-body">
+      <div class="audit-form-grid">
+        <div class="audit-form-item">
+          <label>预约单号</label>
+          <div class="value" style="background:#f5f5f5;">YYDH2026061700001</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约单来源</label>
+          <select style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+            <option>集装箱订单</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="audit-form-item">
+          <label>供应商</label>
+          <select style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+            <option>中铁联集西安分公司</option>
+            <option>中铁联集青岛分公司</option>
+            <option>长春丰泰物流有限公司</option>
+          </select>
+        </div>
+        <div class="audit-form-item">
+          <label>堆场</label>
+          <select style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+            <option>西安中心站</option>
+            <option>西安远海国铁物流堆场</option>
+          </select>
+        </div>
+        <div class="audit-form-item">
+          <label>预约类型</label>
+          <select style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+            <option>提空</option>
+            <option>提重</option>
+            <option>落重</option>
+            <option>还空</option>
+          </select>
+        </div>
+        <div class="audit-form-item">
+          <label>预约进站时间</label>
+          <input type="text" value="2026-06-01 08:00" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>集卡车车牌号</label>
+          <input type="text" value="京A12345" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>司机姓名</label>
+          <input type="text" value="张三" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>手机号码</label>
+          <input type="text" value="13800138001" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>集装箱号</label>
+          <input type="text" value="&mdash;" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>关联订单号</label>
+          <input type="text" value="ZTLJXABD260601001" style="flex:1;padding:7px 10px;border:1px solid #ccc;background:#fff;font-size:13px;font-family:inherit;color:#333;outline:none;">
+        </div>
+        <div class="audit-form-item">
+          <label>预约状态</label>
+          <div class="value" style="background:#f5f5f5;">待审核</div>
+        </div>
+        <div class="audit-form-item">
+          <label>放行状态</label>
+          <div class="value" style="background:#f5f5f5;">待放行</div>
+        </div>
+      </div>
+    </div>
+    <div class="audit-modal-footer">
+      <button class="btn btn-outline" onclick="toggleEditModal()">取消</button>
+      <button class="btn btn-primary" onclick="toggleEditModal()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 查看弹框 ===== -->
+<div class="audit-modal-overlay" id="viewModalOverlay" onclick="if(event.target===this)toggleViewModal()">
+  <div class="audit-modal-box" style="width:720px;">
+    <div class="audit-modal-header">
+      <span class="audit-modal-title">查看进站预约单</span>
+      <span class="audit-modal-close" onclick="toggleViewModal()">&times;</span>
+    </div>
+    <div class="audit-modal-body">
+      <div class="audit-form-grid">
+        <div class="audit-form-item">
+          <label>预约单号</label>
+          <div class="value">YYDH2026061700002</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约类型</label>
+          <div class="value">提重</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约进站时间</label>
+          <div class="value">2026-06-01 10:00</div>
+        </div>
+        <div class="audit-form-item">
+          <label>集卡车车牌号</label>
+          <div class="value">京B67890</div>
+        </div>
+        <div class="audit-form-item">
+          <label>司机姓名</label>
+          <div class="value">李四</div>
+        </div>
+        <div class="audit-form-item">
+          <label>手机号码</label>
+          <div class="value">13800138002</div>
+        </div>
+        <div class="audit-form-item">
+          <label>集装箱号</label>
+          <div class="value">&mdash;</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约单来源</label>
+          <div class="value">集装箱订单</div>
+        </div>
+        <div class="audit-form-item">
+          <label>关联订单号</label>
+          <div class="value">ZTLJXABD260601002</div>
+        </div>
+        <div class="audit-form-item">
+          <label>供应商</label>
+          <div class="value">中铁联集青岛分公司</div>
+        </div>
+        <div class="audit-form-item">
+          <label>堆场</label>
+          <div class="value">西安远海国铁物流堆场</div>
+        </div>
+        <div class="audit-form-item">
+          <label>预约状态</label>
+          <div class="value"><span style="color:#1a7f37;">已通过</span></div>
+        </div>
+        <div class="audit-form-item">
+          <label>放行状态</label>
+          <div class="value"><span style="color:#1a7f37;">已放行</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="audit-modal-footer">
+      <button class="btn btn-primary" onclick="toggleViewModal()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 进站预约单 - 提醒弹框 ===== -->
+<div class="alert-modal-overlay" id="alertModalOverlay">
+  <div class="alert-modal-box">
+    <div class="alert-modal-body">
+      是否取消当前预约？
+    </div>
+    <div class="alert-modal-footer">
+      <button class="btn btn-outline" onclick="toggleAlertModal()">否</button>
+      <button class="btn btn-primary" onclick="toggleAlertModal()">是</button>
     </div>
   </div>
 </div>
 
 <script>
-  function toggleModal() {
-    document.getElementById('modalOverlay').classList.toggle('show');
+  /* ===== 页面切换逻辑 ===== */
+  function switchPage(page) {
+    // 切换内容区
+    var pages = document.querySelectorAll('.page-wrapper > div');
+    pages.forEach(function(p) { p.classList.remove('active-page'); });
+    document.getElementById('page-' + page).classList.add('active-page');
+
+    // 切换页签高亮
+    var tabs = document.querySelectorAll('.nav-tab');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    document.getElementById('tab-' + page).classList.add('active');
+
+    // 切换菜单高亮
+    var menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(function(m) { m.classList.remove('active'); });
+    var subMenuItems = document.querySelectorAll('.sub-menu li');
+    subMenuItems.forEach(function(s) { s.classList.remove('active'); });
+
+    if (page === 'gate') {
+      document.getElementById('menu-gate').classList.add('active');
+      document.getElementById('menu-gate').closest('.menu-section').querySelector('.menu-item').classList.add('active');
+    } else if (page === 'appointment') {
+      document.getElementById('menu-appointment').classList.add('active');
+      document.getElementById('menu-appointment').closest('.menu-section').querySelector('.menu-item').classList.add('active');
+    }
+  }
+
+  /* ===== 闸口放行配置弹框 ===== */
+  function toggleGateModal() {
+    document.getElementById('gateModalOverlay').classList.toggle('show');
   }
 
   function toggleDropdown() {
@@ -922,17 +1874,6 @@
     }
   }
 
-  document.addEventListener('click', function(e) {
-    var dropdown = document.getElementById('gateFieldDropdown');
-    if (dropdown && !dropdown.contains(e.target)) {
-      document.getElementById('gateFieldOptions').style.display = 'none';
-    }
-    var relDropdown = document.getElementById('relYardDropdown');
-    if (relDropdown && !relDropdown.contains(e.target)) {
-      document.getElementById('relYardOptions').style.display = 'none';
-    }
-  });
-
   function toggleRelYardDropdown() {
     var opts = document.getElementById('relYardOptions');
     opts.style.display = opts.style.display === 'none' ? 'block' : 'none';
@@ -949,6 +1890,166 @@
       text.textContent = values.join('、');
     }
   }
+
+  /* ===== 进站预约单弹框 ===== */
+  function toggleAppointmentModal() {
+    document.getElementById('appointmentModalOverlay').classList.toggle('show');
+    if (document.getElementById('appointmentModalOverlay').classList.contains('show')) {
+      initDateTimePicker();
+    }
+  }
+
+  function toggleDrawer() {
+    document.getElementById('advancedFilterDrawer').classList.toggle('show');
+    document.getElementById('drawerOverlay').classList.toggle('show');
+  }
+
+  function toggleAuditModal() {
+    document.getElementById('auditModalOverlay').classList.toggle('show');
+  }
+
+  function toggleEditModal() {
+    document.getElementById('editModalOverlay').classList.toggle('show');
+  }
+
+  function toggleViewModal() {
+    document.getElementById('viewModalOverlay').classList.toggle('show');
+  }
+
+  function toggleAlertModal() {
+    document.getElementById('alertModalOverlay').classList.toggle('show');
+  }
+
+  /* ===== 日期时间选择器 ===== */
+  function initDateTimePicker() {
+    var now = new Date();
+    var yearSel = document.getElementById('dtpYear');
+    var monthSel = document.getElementById('dtpMonth');
+    var daySel = document.getElementById('dtpDay');
+    var hourSel = document.getElementById('dtpHour');
+    var minSel = document.getElementById('dtpMinute');
+    var secSel = document.getElementById('dtpSecond');
+    yearSel.innerHTML = '';
+    for (var y = now.getFullYear(); y <= now.getFullYear() + 2; y++) {
+      var opt = document.createElement('option');
+      opt.value = y; opt.textContent = y + '年';
+      if (y === now.getFullYear()) opt.selected = true;
+      yearSel.appendChild(opt);
+    }
+    monthSel.innerHTML = '';
+    for (var m = 1; m <= 12; m++) {
+      var opt = document.createElement('option');
+      opt.value = m; opt.textContent = m + '月';
+      if (m === (now.getMonth() + 1)) opt.selected = true;
+      monthSel.appendChild(opt);
+    }
+    daySel.innerHTML = '';
+    for (var d = 1; d <= 31; d++) {
+      var opt = document.createElement('option');
+      opt.value = d; opt.textContent = d + '日';
+      if (d === now.getDate()) opt.selected = true;
+      daySel.appendChild(opt);
+    }
+    hourSel.innerHTML = '';
+    for (var h = 0; h < 24; h++) {
+      var opt = document.createElement('option');
+      opt.value = h; opt.textContent = (h < 10 ? '0' : '') + h + '时';
+      if (h === now.getHours()) opt.selected = true;
+      hourSel.appendChild(opt);
+    }
+    minSel.innerHTML = '';
+    for (var mi = 0; mi < 60; mi++) {
+      var opt = document.createElement('option');
+      opt.value = mi; opt.textContent = (mi < 10 ? '0' : '') + mi + '分';
+      if (mi === now.getMinutes()) opt.selected = true;
+      minSel.appendChild(opt);
+    }
+    secSel.innerHTML = '';
+    for (var s = 0; s < 60; s++) {
+      var opt = document.createElement('option');
+      opt.value = s; opt.textContent = (s < 10 ? '0' : '') + s + '秒';
+      if (s === now.getSeconds()) opt.selected = true;
+      secSel.appendChild(opt);
+    }
+  }
+
+  function toggleDateTimePicker() {
+    var picker = document.getElementById('dateTimePicker');
+    picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function padZero(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function updateDateTimePreview() {
+    var y = document.getElementById('dtpYear').value;
+    var m = padZero(document.getElementById('dtpMonth').value);
+    var d = padZero(document.getElementById('dtpDay').value);
+    var h = padZero(document.getElementById('dtpHour').value);
+    var mi = padZero(document.getElementById('dtpMinute').value);
+    var s = padZero(document.getElementById('dtpSecond').value);
+    document.getElementById('modalDateTime').value = y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s;
+  }
+
+  function confirmDateTime() {
+    updateDateTimePreview();
+    document.getElementById('dateTimePicker').style.display = 'none';
+  }
+
+  /* ===== 预约单来源联动 ===== */
+  function onSourceChange() {
+    var source = document.getElementById('modalSource').value;
+    var plate = document.getElementById('modalPlate');
+    var driver = document.getElementById('modalDriver');
+    var phone = document.getElementById('modalPhone');
+    if (source === '集装箱订单') {
+      plate.outerHTML = '<select id="modalPlate" onchange="onPlateChange()"><option>请选择</option><option>京A12345</option><option>京B67890</option><option>京C11111</option></select>';
+      driver.setAttribute('readonly', true);
+      driver.style.background = '#f5f5f5';
+      driver.placeholder = '选择车牌后自动带出';
+      driver.value = '';
+      phone.setAttribute('readonly', true);
+      phone.style.background = '#f5f5f5';
+      phone.placeholder = '选择车牌后自动带出';
+      phone.value = '';
+    } else {
+      plate.outerHTML = '<input type="text" id="modalPlate" placeholder="请输入集卡车车牌号">';
+      driver.removeAttribute('readonly');
+      driver.style.background = '#fff';
+      driver.placeholder = '请输入司机姓名';
+      phone.removeAttribute('readonly');
+      phone.style.background = '#fff';
+      phone.placeholder = '请输入手机号码';
+    }
+  }
+
+  function onPlateChange() {
+    var plate = document.getElementById('modalPlate').value;
+    var driver = document.getElementById('modalDriver');
+    var phone = document.getElementById('modalPhone');
+    if (plate === '京A12345') { driver.value = '张三'; phone.value = '13800138001'; }
+    else if (plate === '京B67890') { driver.value = '李四'; phone.value = '13800138002'; }
+    else if (plate === '京C11111') { driver.value = '王五'; phone.value = '13800138003'; }
+    else { driver.value = ''; phone.value = ''; }
+  }
+
+  /* ===== 全局点击关闭下拉 ===== */
+  document.addEventListener('click', function(e) {
+    // 闸口放行配置下拉
+    var dropdown = document.getElementById('gateFieldDropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+      document.getElementById('gateFieldOptions').style.display = 'none';
+    }
+    var relDropdown = document.getElementById('relYardDropdown');
+    if (relDropdown && !relDropdown.contains(e.target)) {
+      document.getElementById('relYardOptions').style.display = 'none';
+    }
+    // 日期时间选择器
+    var picker = document.getElementById('dateTimePicker');
+    var input = document.getElementById('modalDateTime');
+    if (picker && input && !picker.contains(e.target) && e.target !== input) {
+      picker.style.display = 'none';
+    }
+  });
 </script>
 
 </body>
