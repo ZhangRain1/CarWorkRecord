@@ -871,12 +871,22 @@
     <!-- ===== 左侧菜单区 ===== -->
     <aside class="sidebar">
       <div class="menu-section">
-        <div class="menu-item active">
-          <span>经营业务管理</span>
-          <span class="menu-arrow open">▶</span>
+        <div class="menu-item" id="menu-base">
+          <span>基础数据</span>
+          <span class="menu-arrow open">&#9654;</span>
         </div>
         <ul class="sub-menu">
-          <li class="active">进站预约单</li>
+          <li id="menu-yardType" onclick="window.open('预约进站类型配置模块原型图.html','_self')">预约进站类型配置</li>
+          <li id="menu-gate" onclick="window.open('闸口放行配置模块原型图.html','_self')">闸口放行配置</li>
+        </ul>
+      </div>
+      <div class="menu-section">
+        <div class="menu-item active" id="menu-biz">
+          <span>经营业务管理</span>
+          <span class="menu-arrow open">&#9654;</span>
+        </div>
+        <ul class="sub-menu">
+          <li class="active" id="menu-appointment">进站预约单</li>
         </ul>
       </div>
     </aside>
